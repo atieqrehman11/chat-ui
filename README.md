@@ -8,12 +8,11 @@ Built with React 18 and TypeScript.
 ## Quick Start
 
 ```bash
-npm install
-npm start        # dev server on http://localhost:3000
+chmod +x dev.sh
+./dev.sh          # starts dev server on http://localhost:3000
 ```
 
-Requires the backend running on `http://localhost:8000`.
-API requests are proxied automatically in development — no env vars needed locally.
+On first run, if no `.env` exists it copies `.env.example` to `.env` and exits — edit the file then re-run.
 
 ---
 
@@ -45,8 +44,8 @@ See [docs/configuration.md](docs/configuration.md) for the full reference.
 ## Commands
 
 ```bash
-npm start                         # dev server
-npm test -- --watchAll=false      # run all tests once
-npm run build                     # production build → build/
-npx tsc --noEmit                  # type-check
+./dev.sh              # start dev server (default)
+./dev.sh build        # production build → build/
+./dev.sh test         # run all tests once
+./dev.sh typecheck    # tsc --noEmit
 ```

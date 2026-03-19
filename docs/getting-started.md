@@ -11,35 +11,34 @@
 ## Install and Run
 
 ```bash
-cd frontend
-npm install
-npm start
+chmod +x dev.sh
+./dev.sh
 ```
 
-Frontend starts on http://localhost:3000.
-API requests to `/api/v1/*` are proxied to `http://localhost:8000` via `setupProxy.js`.
+On first run, if no `.env` exists the script copies `.env.example` to `.env` and exits — edit the file and re-run.
+The dev server starts on http://localhost:3000. API requests to `/api/v1/*` are proxied to `http://localhost:8000` automatically.
 
 ---
 
 ## Environment Variables
 
-Create `frontend/.env`:
+Copy `.env.example` to `.env` and set what you need:
 
 ```bash
-REACT_APP_API_BASE_URL=http://localhost:8000/api/v1
+cp .env.example .env
 ```
 
-If not set, defaults to `/api/v1` (relative URL — works with the dev proxy).
+The only variable required in production is `REACT_APP_API_BASE_URL`. See [configuration.md](configuration.md) for the full reference.
 
 ---
 
 ## Dev Commands
 
 ```bash
-npm start                          # dev server on :3000
-npm test -- --watchAll=false       # run all tests once
-npm run build                      # production build → frontend/build/
-npx tsc --noEmit                   # type-check without emitting
+./dev.sh              # start dev server (default)
+./dev.sh build        # production build → build/
+./dev.sh test         # run all tests once
+./dev.sh typecheck    # tsc --noEmit
 ```
 
 ---
@@ -47,7 +46,7 @@ npx tsc --noEmit                   # type-check without emitting
 ## Running Tests
 
 ```bash
-npm test -- --watchAll=false
+./dev.sh test
 ```
 
 Tests live in `__tests__/` folders co-located with the code they test.
@@ -58,8 +57,8 @@ All 18 test suites must pass before merging.
 ## Production Build
 
 ```bash
-npm run build
+./dev.sh build
 ```
 
-Outputs to `frontend/build/`. Serve as static files behind any web server or CDN.
+Outputs to `build/`. Serve as static files behind any web server or CDN.
 Set `REACT_APP_API_BASE_URL` to the production backend URL before building.
