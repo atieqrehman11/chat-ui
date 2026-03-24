@@ -186,6 +186,8 @@ Everything you need is exported from `src/core`:
 import type {
   Message, ChatMessage, ReportData,
   StreamEventTransformer, ChatUIConfig,
+  ChatInterfaceProps, MessageBubbleProps,
+  UseChatInterfaceReturn,
 } from './core';
 
 // Enums / classes
@@ -202,6 +204,7 @@ import { useChatInterface } from './core';
 
 // Utilities
 import { generateMessageId, generateCorrelationId } from './core';
+import { mergeAgentResult, findLastThinkingIndex } from './core';
 ```
 
 Do not import directly from `src/core/components/...` or `src/core/services/...` — always go through `src/core/index.ts`.

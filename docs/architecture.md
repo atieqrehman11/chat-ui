@@ -39,6 +39,8 @@ Each component follows the convention: one `.tsx`, one `.module.css`, one `use<N
 | `useSubmitStream` | Submit HTTP call, NDJSON stream processing, thinking→result upsert | `submitReviewWithRetry`, `submitReviewWithFile`, `parseNDJSONStream` |
 | `useChatStream` | Follow-up chat HTTP call, chunk accumulation | `submitChat`, `drainChatStream` |
 
+`useSubmitStream` accepts a `mergeStrategy` prop (`'replace'` or `'append'`). In `'replace'` mode, an incoming `AGENT_RESULT` replaces the matching `AGENT_THINKING` bubble in-place via `mergeAgentResult`. In `'append'` mode all messages are appended. The review integration uses `'replace'`.
+
 `chatStreamUtils.ts` contains pure functions (no React deps) for stream processing — fully unit-testable in isolation.
 
 ---
@@ -54,7 +56,7 @@ Each component follows the convention: one `.tsx`, one `.module.css`, one `use<N
 | `activeCorrelationIdRef` | `Ref<string \| null>` | `null` in review mode; set to `correlationId` once review completes |
 | `chatHistoryRef` | `Ref<ChatMessage[]>` | Conversation turns forwarded to the LLM on each follow-up |
 
-`handleSubmit` is the single entry point for user actions. It routes to `startSubmit` or `startChat` based on `activeCorrelationIdRef`.
+`handleSubmit` is the single entry point for user actions. It routes to `startSubmit` or `startChat` based on `activeCorrelationIdRef`. `resetSession` clears all state and returns to review mode.
 
 ---
 

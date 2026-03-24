@@ -26,25 +26,24 @@ Ships with a `review-backend` integration for the System Design Mentor API, but 
 ## Project Structure
 
 ```
-frontend/
-  src/
-    core/                        # Generic, reusable chat-ui library
-      components/                # ChatInterface, MessageList, MessageBubble, InputArea, ...
-      config/                    # ChatUIConfig interface + factory
-      services/                  # HTTP client, NDJSON stream reader, retry, chat client
-      types/                     # Core types: Message, MessageType, StreamEventTransformer, ...
-      utils/                     # id, signal, clipboard
-      index.ts                   # Public API barrel export
-    integrations/
-      review-backend/            # System Design Mentor backend integration
-        transformer.ts           # ReviewResponse → Message
-        renderReviewReport.tsx   # ReviewReport renderer
-        ReportContent.tsx        # Structured report UI
-        constants.ts             # reviewChatUIConfig
-        types.ts                 # ReviewReport, ReviewFinding, ...
-    config/
-      constants.ts               # App-level defaults (API URLs, UI text, file config)
-    App.tsx                      # Wires core + integration together
+src/
+  core/                        # Generic, reusable chat-ui library
+    components/                # ChatInterface, MessageList, MessageBubble, InputArea, FileUploader
+    config/                    # ChatUIConfig interface + factory
+    services/                  # HTTP client, NDJSON stream reader, retry, chat client
+    types/                     # Core types: Message, MessageType, StreamEventTransformer, ...
+    utils/                     # id, signal, clipboard
+    index.ts                   # Public API barrel export
+  integrations/
+    review-backend/            # System Design Mentor backend integration
+      transformer.ts           # ReviewResponse → Message
+      renderReviewReport.tsx   # ReviewReport renderer
+      ReportContent.tsx        # Structured report UI
+      constants.ts             # reviewChatUIConfig
+      types.ts                 # ReviewReport, ReviewFinding, ...
+  config/
+    constants.ts               # App-level defaults (API URLs, UI text, file config)
+  App.tsx                      # Wires core + integration together
 ```
 
 Only `App.tsx` is allowed to import from both `src/core/` and `src/integrations/`.

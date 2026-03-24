@@ -10,5 +10,5 @@ export function generateMessageId(): string {
  * Generate a unique correlation ID using the Web Crypto API.
  */
 export function generateCorrelationId(): string {
-  return `corr_${crypto.randomUUID()}`;
+  return `${crypto.randomUUID()}`;
 }

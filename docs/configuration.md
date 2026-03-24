@@ -6,7 +6,7 @@ Values are baked into the bundle at build time (CRA convention).
 Copy `.env.example` to `.env` and set what you need:
 
 ```bash
-cp frontend/.env.example frontend/.env
+cp .env.example .env
 ```
 
 ---
@@ -31,7 +31,7 @@ cp frontend/.env.example frontend/.env
 | `REACT_APP_INPUT_PLACEHOLDER` | `Paste your design document here or upload a file...` | Placeholder in the initial document input. |
 | `REACT_APP_CHAT_PLACEHOLDER` | `Ask a follow-up question about the review...` | Placeholder in the follow-up chat input. |
 | `REACT_APP_SUBMIT_BUTTON_TEXT` | `Review Design` | Label on the submit button. |
-| `REACT_APP_EMPTY_STATE_MESSAGE` | `Submit a design document to get started...` | Message shown before any conversation starts. |
+| `REACT_APP_EMPTY_STATE_MESSAGE` | `Submit a design document to get started with your architectural review` | Message shown before any conversation starts. |
 
 ### File Upload
 
