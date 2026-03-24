@@ -5,12 +5,62 @@ Ships pre-wired to the [System Design Mentor](https://github.com/atieqrehman11/s
 
 ---
 
+## Key Features
+
+**Real-time NDJSON streaming**
+Reads a `ReadableStream` from any backend and renders events as a live conversation. Buffers partial lines across chunks so no event is ever dropped or split.
+
+**Two-phase conversation flow**
+Phase 1 — submit a document and stream agent results. Phase 2 — follow-up chat backed by a direct LLM call. The UI switches modes automatically when the review stream completes, with no page reload or manual wiring required.
+
+**AGENT_THINKING → AGENT_RESULT in-place upsert**
+When an agent result arrives, it replaces the corresponding thinking bubble in-place (`mergeAgentResult`). The message list stays clean during multi-agent execution — no stacking of redundant bubbles.
+
+**Pluggable event transformer**
+The core has zero knowledge of backend event shapes. Implement `StreamEventTransformer<TEvent>` to map any NDJSON event to a `Message` — two pure methods, no side effects required.
+
+**Pluggable report renderer**
+Pass a `renderReport` prop to `ChatInterface` to render structured report data however you like. Falls back to a generic key-value renderer if omitted.
+
+**Exponential backoff retry**
+Submission calls retry up to 3 times with exponential backoff (1 s base, ×2 multiplier). 4xx errors and aborted requests are not retried.
+
+**Request timeout + abort signal**
+Every HTTP call is wrapped with a configurable timeout (default 30 s for chat, 60 s for submit). Timeout and user-provided `AbortSignal` are composed so either can cancel the request.
+
+**File upload with drag-and-drop**
+Supports `.txt`, `.md`, `.json`, `.pdf`, `.doc`, `.docx` up to a configurable size limit (default 5 MB). Client-side validation runs before any network call. Drag-and-drop and click-to-browse both supported.
+
+**Fully env-configurable**
+All API endpoints, UI strings, and upload limits are driven by `REACT_APP_*` environment variables — nothing hardcoded. One `createDefaultChatUIConfig()` call builds a complete config from env vars with sensible defaults.
+
+**No global state**
+All state lives in `useChatInterface`. No Redux, no Context API, no external store. The hook is exported so you can build a fully custom UI on top of the same logic.
+
+**Correlation ID tracking**
+A UUID is generated client-side before each submission and sent as `X-Correlation-ID`. All messages in a session share the same ID, enabling `MessageList` to group them visually across review sessions.
+
+---
+
 ## How It Works
 
-- Streams NDJSON events from a backend and renders them as a live conversation
-- Two-phase flow: submit a document → agents stream thinking + results → follow-up chat
-- File upload with client-side validation (size + type)
-- Pluggable event transformer and report renderer — no domain logic in the core
+```
+User submits text / file
+        │
+        ▼
+useChatInterface.handleSubmit()
+        │
+        ├── Phase 1 (review mode)
+        │     useSubmitStream → POST /api/v1/review
+        │     parseNDJSONStream → transformer.transform(event)
+        │     mergeAgentResult: AGENT_THINKING replaced by AGENT_RESULT in-place
+        │     stream ends → isFollowUpMode = true
+        │
+        └── Phase 2 (follow-up mode)
+              useChatStream → POST /api/v1/chat/{correlationId}
+              drainChatStream → onChunk updates assistant bubble
+              stream ends → chatHistory updated
+```
 
 The frontend is split into two layers:
 - `src/core/` — generic, reusable library with no domain knowledge
