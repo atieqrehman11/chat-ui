@@ -1,7 +1,7 @@
 # Chat UI — Frontend
 
 A generic, backend-agnostic streaming chat UI built with React 18 and TypeScript.
-Ships pre-wired to the [System Design Mentor](https://github.com/atieqrehman11/system-design-reviewer) backend, but the core library is fully decoupled and can be connected to any NDJSON streaming backend.
+Ships pre-wired to the [System Design Mentor](https://github.com/atieqrehman11/system_design_reviewer) backend, but the core library is fully decoupled and can be connected to any NDJSON streaming backend.
 
 ---
 
