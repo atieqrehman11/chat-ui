@@ -70,6 +70,22 @@ The frontend is split into two layers:
 
 ---
 
+## Screenshots
+
+**Step 1 — Upload a document**
+![Step 1 - Upload a document](docs/images/reviewer%20step1.png)
+
+**Step 2 — Review stream in progress**
+![Step 2 - Review stream in progress](docs/images/reviewer%20step%202.png)
+
+**Step 3 — Agent results rendered**
+![Step 3 - Agent results rendered](docs/images/reviewer%20step%203.png)
+
+**Step 4 — Follow-up chat mode**
+![Step 4 - Follow-up chat mode](docs/images/reviewer%20step%204.png)
+
+---
+
 ## Quick Start
 
 ```bash
